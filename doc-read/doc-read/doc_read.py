@@ -1,12 +1,10 @@
-#coding=utf-8
+﻿#coding=utf-8
 #cp936
 import os,win32com.client,sys
 from xml.dom.minidom import Document
 reload(sys)
 sys.setdefaultencoding('utf-8')
 conf = {}
-
-#fdsa
 
 conffile = open(r'E:\doc read\doc-read\doc-read\conf\shenqingshu.ini')
 for line in conffile.readlines():
