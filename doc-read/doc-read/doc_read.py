@@ -6,6 +6,8 @@ reload(sys)
 sys.setdefaultencoding('utf-8')
 conf = {}
 
+#fdsa
+
 conffile = open(r'E:\doc read\doc-read\doc-read\conf\shenqingshu.ini')
 for line in conffile.readlines():
     temp = line.split('=')
