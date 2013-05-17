@@ -1,0 +1,13 @@
+固定值：fix
+缺省值：def
+名称：name
+至多出现: maxo
+至少出现：mino
+被包含：fat
+最大值：maxi
+最小值：mini
+枚举：enum
+包含条件：contain
+包含条件-加粗：bold
+包含条件-缩进：tab
+包含条件-不空行：NS
