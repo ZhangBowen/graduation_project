@@ -276,7 +276,6 @@ def get_XSD(conf):
 
 
 def word_to_xml(conf,wordpath,output=None):
-    print conf,wordpath
 
     word = win32com.client.Dispatch('Word.Application')
     doc = word.Documents.Open(wordpath)
@@ -414,6 +413,8 @@ def word_to_xml(conf,wordpath,output=None):
 
 
 def get_r_xml(confp,wordpath,output=None):
+    print confp,wordpath
+
     conffile = open(confp)
 
     for line in conffile.readlines():
@@ -440,7 +441,6 @@ def get_r_xml(confp,wordpath,output=None):
     xmlfile.appendChild(information)
 
     word = win32com.client.Dispatch('Word.Application')
-
     doc = word.Documents.Open(wordpath)
 
     for i in range(doc.paragraphs.count):
@@ -479,16 +479,21 @@ def get_r_xml(confp,wordpath,output=None):
             inforitem.appendChild(textnode)
             information.appendChild(inforitem)
 
-
-    f=open('output.xml','w')
+    if output ==None:
+        f=open('output.xml','w')
+    else:
+        f=open(output,'w')
     xmlfile.writexml(f, "\t", "\t", "\n", "utf-8")
     f.close()
+
+    doc.Close()
+    word.Quit()
 
 ####################################################################################
 
 def usage():
     print '''
-    -c 检验模式。检验一个Word文档是否符合特定Schema格式要求。需输入待检验Word文档路径，配置文件路径或者已有的Schema路径。
+    -c 检验模式。检验一个Word文档是否符合特定Schema格式要求。需输入待检验Word文档路径，配置文件路径或者已有的xsdr路径。
     -r 提取模式。根据一个配置文件从一个Word文档中提取出感兴趣的文档内容。需输入待检验Word文档路径，配置文件路径。
     -h 帮助信息。
     -i 指定配置文件路径。
@@ -527,14 +532,19 @@ if __name__ == '__main__':
         sys.exit(1)
     elif mode ==1:
         if conffile and wordfile :
-            print "fuck"
             get_XSD_r(conffile)
             get_XSD(conffile)
             word_to_xml('%s.xsdr' % conffile.split('\\')[-1].split('.')[0],wordfile,outputfile)
-        
+        elif xmlfile and wordfile :
+            word_to_xml(xmlfile,wordfile,outputfile)
+        else:
+            usage()
+            sys.exit(2)
+    elif mode ==2:
+        if conffile and wordfile:
+            get_r_xml(conffile,wordfile,outputfile)
+        else:
+            usage()
+            sys.exit(3)
 
-    
-#get_XSD_r(r'E:\graduation_project\doc-read\doc-read\conf\kaitibaogao.ini')
-#get_XSD(r'E:\graduation_project\doc-read\doc-read\conf\kaitibaogao.ini')
-#word_to_xml('kaitibaogao.xsdr',r'C:\Users\c-zin\Desktop\ZBW.doc')
-#get_r_xml(r'conf\shenqingshu.ini',r'E:\graduation_project\doc-read\aaa.doc')
+####################################################################################
