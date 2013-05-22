@@ -500,6 +500,49 @@ def usage():
     -w 指定word文档路径。
     -x 指定XML Schema 路径。
     -o 指定输出的XML文件路径。
+    -a 提取用用户模板语法说明。
+    -b 验证用用户模板语法说明。
+    '''.decode('utf-8').encode('gbk')
+    
+def usage1():
+    print ''' 
+    配置项以行为单位。
+    开头是命中后生成的XML element 的名称，后跟‘=’。‘=’后面是对于匹配命中条件的描述。
+    命中条件包括:
+    text 规定命中文本的文本内容。
+    size 规定命中文本的文本字号。填写以磅为单位的字号。
+    type 规定命中文本的文本字体。
+    UL   规定命中文本是否含有下划线。-1代表含下划线，其他内容代表不含下划线。
+    Iitalic 规定命中文本是否是斜体字。-1代表是斜体字，其他内容代表不是斜体字。
+    bold   规定命中文本是否是粗体字。-1 代表是粗体字，其他内容代表不是粗体字。
+    
+    如果不指定字段则代表对该字段没有任何要求。
+    各个命中条件之中用’;’相隔。
+    
+    例如：
+    SHENQINGDAIMA=text:申请代码;type:宋体;size:10.5
+    
+    对于同一字段可以填写多个条件，各个条件之间是或关系，用‘|’连接各个条件。
+    
+    例如：
+    SHENQINGZHE=text:申请者|申 请 者
+    '''.decode('utf-8').encode('gbk')
+
+def usage2():
+    print '''
+    配置项以行为单位。
+	开头是内存中读取到配置项后生成的XML element 的名称，后跟‘=’。‘=’后面是对于生成节点的包含关系和属性的描述。
+	处于同一层次的节点需要保证配置项与word文档的书写顺序相匹配，否则会得出错误的输出结果。
+	描述的关键词包括：
+	fix 规定word转化生成的XML文本必须严格符合fix后的文本。默认无限制。
+	type规定word转化生成的XML文本必须严格符合type后的类型。后面所填的的类型必须是Schema官方类型中的一个。默认无限制。
+	maxo 规定此字段至多出现次数。填数字代表确切次数，如果不对至多出现次数做限制，那么填写INF。默认为1。
+	mino规定此字段至少出现次数。填数字代表确切次数，如果不对至少出现次数做限制，那么填写INF。默认为1。
+	fat  此配置项的父节点
+	contain表示此XML element将包含多个word段落。后面跟随包含的条件。
+    contain: tab表示此XML element 将包含下面所有含有相同行首缩进的段落。
+    contain：NS表示此XML element 将包含下面所有的段落，直到出现一个空行。
+    各个描述信息之间用‘;’相隔。
     '''.decode('utf-8').encode('gbk')
 
 ####################################################################################
@@ -509,7 +552,7 @@ if __name__ == '__main__':
     wordfile = None
     xmlfile = None
     outputfile = None
-    opts,args = getopt.getopt(sys.argv[1:],'hcri:w:x:o:')
+    opts,args = getopt.getopt(sys.argv[1:],'abhcri:w:x:o:')
     for op,value in opts:
         if op == '-c':
             mode =1
@@ -525,6 +568,12 @@ if __name__ == '__main__':
             outputfile =value
         elif op == '-h':
             usage()
+            sys.exit(0)
+        elif op == '-a':
+            usage1()
+            sys.exit(0)
+        elif op == '-b':
+            usage2()
             sys.exit(0)
 
     if mode ==None:
