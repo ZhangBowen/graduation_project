@@ -181,7 +181,7 @@ def get_XSD_r(conf):
                     te.setAttribute('fixed',j[1])
                 elif j[0]=='word'or j[0]=='contain' or j[0]=='maxo' or j[0]=='mino':
                     te.setAttribute(j[0],j[1])
-                elif j[0]=='fat':
+                elif j[0]=='father':
                     father=serach_E(j[1])
                     if father == None:
                         te.setAttribute('error','no father node named :%s' % j[1])
@@ -256,7 +256,7 @@ def get_XSD(conf):
                         te.setAttribute("maxOccurs","unbounded")
                 elif j[0]=='mino':
                     te.setAttribute("maxOccurs",j[1])
-                elif j[0]=='fat':
+                elif j[0]=='father':
                     father=serach_E_R(j[1])
                     if father == None:
                         te.setAttribute('error','no father node named :%s' % j[1])
